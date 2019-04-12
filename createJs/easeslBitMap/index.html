@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../scripts/easy.js"></script>
+    <script src="../scripts/tween.js"></script>
+</head>
+
+<body>
+    <canvas id="canvas" height="800px;" width="800px;" style="background:lightgreen"></canvas>
+    <script>
+        window.onload = function () {
+           const canvas=document.getElementById("canvas");
+           const stage=new createjs.Stage("canvas");
+           const shape=new createjs.Shape();
+           const container=new createjs.Container();
+           stage.addChild(container)
+
+           const image=new Image();
+           image.src="../image/timg.jpg";
+           image.onload=imageLoad;
+           function imageLoad(event){
+            let bitmap=new createjs.Bitmap(event.target);
+            bitmap.x = canvas.width - bitmap.getBounds().width >> 1;
+            bitmap.y = canvas.height - bitmap.getBounds().height >> 1;
+            container.addChild(bitmap);
+            stage.update()
+           
+           }
+        }
+    </script>
+</body>
+
+</html>

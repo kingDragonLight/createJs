@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>tween base</title>
+    <script src="../scripts/easy.js"></script>
+    <script src="../scripts/tween.js"></script>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="400px;" height="400px;" style="background:lightgreen"></canvas>
+    <script>
+        window.onload=function(options){
+            const canvas=document.getElementById("canvas");
+            const canvasH=canvas.height;
+            const canvasW=canvas.width;
+            const stage=new createjs.Stage("canvas");
+            const circle=new createjs.Shape();
+            circle.graphics.beginFill("#ff0000").drawCircle(0,0,50);
+            // circle.graphics.beginFill("#ff0000").drawCircle(canvasW>>1,canvasH>>1,50);
+
+            stage.addChild(circle);
+            stage.update()
+            console.log(createjs)
+
+            createjs.Tween.get(circle,{loop:true})
+                .wait(1000)
+                .to({scaleX:0.2,scaleY:0.2})
+                .wait(1000)
+                .to({scaleX:1,scaleY:1},1000,createjs.Ease.bounceInOut)
+
+            createjs.Ticker.setFPS(20);
+            createjs.Ticker.addEventListener("tick",stage)
+        }
+    </script>
+</body>
+</html>

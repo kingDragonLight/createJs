@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../scripts/easy.js"></script>
+    <script src="../scripts/tween.js"></script>
+</head>
+
+<body>
+    <canvas id="canvas" height="800px;" width="800px;" style="background:lightgreen"></canvas>
+    <script>
+        window.onload = function () {
+            const stage = new createjs.Stage("canvas");
+            const container = new createjs.Container();
+            stage.addChild(container);
+
+            const rect = new createjs.Shape();
+            rect.graphics.beginFill("#ff0000").drawRect(0, 0, 100, 100)
+            container.addChild(rect)
+            stage.update()
+
+            createjs.Ticker.setFPS(50);//每秒10 帧
+            let speedX=3*Math.random()+7;
+            let speedY=3*Math.random()+7;
+            createjs.Ticker.addEventListener('tick', function () {
+                if (rect.x >= 700) {
+                    speedX=3*Math.random()+7;
+                    speedX= -Math.abs(speedX)
+                } 
+                if(rect.x <= 0){
+                    speedX=3*Math.random()+7;
+                    speedX = Math.abs(speedX)
+                }
+                if (rect.y >= 700) {
+                    speedY=3*Math.random()+7;
+                    speedY= -Math.abs(speedY)
+                } 
+                if(rect.y <= 0){
+                    speedY=3*Math.random()+7;
+                    speedY = Math.abs(speedY)
+                }
+                rect.x+=speedX;
+                rect.y+=speedY
+                stage.update()
+            });
+
+        }
+        console.log()
+    </script>
+</body>
+
+</html>
