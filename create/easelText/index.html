@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../scripts/easy.js"></script>
+    <script src="../scripts/tween.js"></script>
+</head>
+
+<body>
+    <canvas id="canvas" height="800px;" width="800px;" style="background:lightgreen"></canvas>
+    <script>
+        let canvas,stage,text,rect,count=500,bounds;
+
+        canvas=document.getElementById("canvas");
+        const canvasH=canvas.height,canvasW=canvas.width;
+
+        stage=new createjs.Stage("canvas");
+        const container=new createjs.Container();
+        stage.addChild(container);
+
+        text=new createjs.Text(`我真的还想再活500年`,"36px Arial","#333");
+
+        bounds = text.getBounds();
+        text.x=canvasW-bounds.width>>1;
+        text.y=canvasH-bounds.height>>1;
+        container.addChild(text)
+        createjs.Ticker.setFPS(10)
+        text.rotation=30;  //添加背景色的话就需要再 draw rect 然后在他之后appchild就好了
+        createjs.Ticker.addEventListener('tick',function(){
+            count++
+            text.text=`我真的还想再活${count}年`
+            stage.update();
+        })
+        stage.update();
+    </script>
+</body>
+</html>

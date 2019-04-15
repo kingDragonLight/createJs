@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>EaselJS处理图片</title>
+    <script src="../scripts/easy.js"></script>
+    <style>
+        canvas {
+            margin: 30px;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="560" height="410">您的浏览器版本过低，请更换更高版本的浏览器</canvas>
+    <script>
+
+/**
+ * >>向下取整   若所得数为小数 向下取整
+ * 1 则为 *  =>8-2^1    = 4
+ * 2 则为 *  =>8-2^2    = 2
+ * 3 则为 *  =>8-2^3    = 1
+ * 4 则为 *  =>8-2^4    = 0
+ * 5 则为 *  =>8-2^5    = 0
+ * 
+ * 所以 一直向下取整，当小于0时 即为0
+*/
+
+
+        const stage = new createjs.Stage("canvas")
+
+        window.onload = function () {
+
+            // drawCircle()
+            drawImage();
+        }
+      
+
+        function drawImage() {
+            var canvas = document.getElementById('canvas');
+            var stage = new createjs.Stage('canvas');
+            
+            //绘制外部容器
+            var container = new createjs.Container();
+            stage.addChild(container);
+            
+            var image = new Image();
+            image.src = "../image/timg.jpg";
+            image.onload = handlerImageLoad;
+            // 在图片加载完以后获取它的诸多属性 用与判断位置的置放
+            function handlerImageLoad(event) {
+                var bitmap = new createjs.Bitmap(event.target);
+                bitmap.x = canvas.width - bitmap.getBounds().width >> 1;
+                bitmap.y = canvas.height - bitmap.getBounds().height >> 1;
+                container.addChild(bitmap);
+                stage.update();
+            }
+        }
+        //画圆
+        function drawCircle() {
+            var circle = new createjs.Shape();
+            circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 10);
+            circle.x = 100;
+            circle.y = 100;
+            stage.addChild(circle);
+            // stage.addChild(bitmap);
+            stage.update()
+        }
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
