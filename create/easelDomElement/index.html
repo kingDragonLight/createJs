@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>container</title>
+    <script src="../scripts/easy.js"></script>
+</head>
+    <style>
+        #box{
+            width: 200px;
+            height: 200px;
+            background: lightskyblue;
+        }
+        #btn{
+            width: 100px;
+            height: 40px;
+        }
+    </style>
+<body>
+    <div id="box">
+        <button id="btn" onclick="alert('be clicked')">按钮</button>
+    </div>
+    <canvas id="canvas" height="960px;" width="400px;" style="background:lightgreen"></canvas>
+    <script>
+        /*
+        *   有错 DOMElement is not a constructor
+        */
+        const canvas = document.getElementById("canvas");
+        const stage=new createjs.Stage("canvas");
+        const container=new createjs.Container();
+        container.x=150;
+        container.y=100;
+        stage.addChild(container);
+
+        const box=new createjs.DOMElement("box");
+        container.addChild(box)
+        stage.update()
+
+       
+   
+   </script>
+</body>
+
+</html>
