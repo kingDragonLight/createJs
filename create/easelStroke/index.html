@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>stroke</title>
+    <script src="../scripts/easy.js"></script>
+</head>
+<body>
+    <canvas id="canvas" width="560" height="410" style="border:1px solid red;">您的浏览器版本过低，请更换更高版本的浏览器</canvas>
+</body>
+    <script>
+        const stage=new createjs.Stage("canvas");
+        const shapeRect=new createjs.Shape();
+        shapeRect.graphics.beginStroke("#ff0000").drawRect(100,10,80,80);
+
+        const shapeCircle=new createjs.Shape();
+        shapeCircle.graphics.beginStroke("#00ff00").drawCircle(50,50,40);
+
+        
+        const star=new createjs.Shape();
+        star.graphics.beginStroke("#0000ff").drawPolyStar(250,50,40,5,0.5,90)//x y r  几个角  0.5刚好为一半 90 为旋转度数
+
+        const starExp=new createjs.Shape();
+        starExp.graphics.beginStroke("#ff0000").drawPolyStar(250,50,40,5,0.7,90)//x y r  几个角  0.5刚好为一半 90 为旋转度数
+
+        const polygon=new createjs.Shape();
+        polygon.graphics.beginStroke("#0f5500").drawPolyStar(250,50,40,5,0,90)//x y r 几个角     0意味着不凹陷，即：正几变形 90 为旋转度数
+
+
+        const curve = new createjs.Shape();
+        curve.graphics.beginStroke("#ff0000");                    //线条颜色为#ff0000红色
+        curve.graphics.bezierCurveTo(10,150,50,300,110,260)        //按起点 10,10 终点 110,110 控制点 110,10 绘制贝塞尔曲线
+        curve.graphics.endStroke();
+
+        stage.addChild(shapeCircle)
+        stage.addChild(shapeRect)
+        stage.addChild(starExp)
+        stage.addChild(star)
+        stage.addChild(polygon)
+        stage.addChild(curve);
+        stage.update()
+    </script>
+</html>

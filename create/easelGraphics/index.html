@@ -18,17 +18,29 @@
             const container = new createjs.Container();
             stage.addChild(container);
 
-            const rect = new createjs.Shape();
-            rect.graphics.beginFill("#ff0000").drawRect(0, 0, 100, 100)
-            container.addChild(rect)
+            // const rect = new createjs.Shape();
+            // rect.graphics.beginFill("#ff0000").drawRect(0, 0, 100, 100)
+            // container.addChild(rect)
 
-            const circle=new createjs.Shape();
-            circle.graphics.beginFill("#0000ff").drawCircle(150,50, 50)//(x,y,r)
-            container.addChild(circle)
+            // const circle = new createjs.Shape();
+            // circle.graphics.beginFill("#0000ff").drawCircle(150, 50, 50)//(x,y,r)
+            // container.addChild(circle)
 
-            // const arc=new createjs.Shape();
-            // arc.graphics.beginFill("#ffffff").arcTo(400, 400, 20, 0, Math.PI*2);
-            // container.addChild(arc)
+            const stroke = new createjs.Shape();
+            stroke.graphics.beginStroke("#ff0000");
+            stroke.graphics.moveTo(450, 550);           // 创建开始点
+            stroke.graphics.lineTo(300, 300);          // 创建水平线
+            stroke.graphics.arcTo(450, 320, 450, 370, 330); // 创建弧
+            // stroke.graphics.lineTo(450, 300);
+            stroke.graphics.endStroke();
+            stage.addChild(stroke);
+
+            // const arc = new createjs.Shape();
+            // arc.graphics.beginFill("#ff0000");
+            // arc.graphics.arc(200, 200, 20, 0, Math.PI);
+            // // shap.graphics.endFill();
+            // container.addChild(arc);
+
             stage.update()
         }
     </script>

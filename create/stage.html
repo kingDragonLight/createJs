@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Stage</title>
+    <style>
+        canvas{
+            margin: 30px;
+            background: lightgreen;
+        }
+    </style>
+     <script src="scripts/easy.js"></script>
+    </head>
+<body>
+    <canvas id="canvas" width="560" height="410">您的浏览器版本过低，请更换更高版本的浏览器</canvas>
+</body>
+<script>
+    const stage=new createjs.Stage("canvas");
+    stage.addEventListener("stagemousedown",function(e){
+        console.log("stage be clicked")
+    })
+</script>
+</html>

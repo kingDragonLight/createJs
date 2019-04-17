@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>精灵图动画</title>
     <script src="../scripts/easy.js"></script>
     <script src="../scripts/tween.js"></script>
 </head>
@@ -42,7 +42,9 @@
         function csdn() {
       
             var stage = new createjs.Stage("canvas");
-            
+            const canvas=document.getElementById("canvas");
+            const width=canvas.width;
+            const height=canvas.height;
             var ss = new createjs.SpriteSheet({
                 "images": ["../image/go.png"],
                 "frames": {
@@ -55,16 +57,39 @@
                     "jump": [26, 63, "run"]         //26帧到63帧是跑
                 }
             });
-            var s = new createjs.Sprite(ss, "run");
-            //两个参数，一个是spritesheet的对象， 
+            var sprite = new createjs.Sprite(ss, "run");
+            //两个参数，一个是spritesheet的对象
 
-            s.x = 100;   //位置为100，100
-            s.y = 100;
+            sprite.x = 50;   //位置为100，100
+            sprite.y = 200;
+            const bounds=sprite.getBounds();
+            console.log(bounds)
 
-            stage.addChild(s);
+            
+            // s.setTransform(100, 100, 1, 1);
+
+            // const second=s.clone();
+            // second.x=300;second.y=300;
+            // stage.addChild(second);
+
+            stage.addChild(sprite);
             //监听事件，50毫秒更新stage
+            let speedX=10;
             createjs.Ticker.setFPS(50);
-            createjs.Ticker.addEventListener("tick", stage);
+
+            // createjs.Ticker.addEventListener("tick", stage); return
+            
+            createjs.Ticker.addEventListener("tick", function () {
+                if(sprite.x>=950){
+                    sprite.x=-100
+                }
+                sprite.x+=speedX
+
+
+               stage.update()
+            });
+
+            
         }
     </script>
 </body>
