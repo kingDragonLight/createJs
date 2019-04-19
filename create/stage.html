@@ -18,8 +18,14 @@
 </body>
 <script>
     const stage=new createjs.Stage("canvas");
+    const container=new createjs.Container();
+    stage.addChild(container)
     stage.addEventListener("stagemousedown",function(e){
-        console.log("stage be clicked")
+        console.log("stage be clicked");
+        const child=stage.getNumChildren();//获取child 数量
+        const childAt = stage.getChildAt(0);
+        console.log("child",child)
+        console.log("childAt",childAt)
     })
 </script>
 </html>

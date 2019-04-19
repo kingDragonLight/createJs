@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id="canvas" style="border:1px #000 solid;" width="1000" height="500"></canvas>
+    <script src="../scripts/easy.js"></script>
+    <script>
+        var canvas;
+        var stage;
+        var img = new Image();
+        var sprite;
+        window.onload = function () {
+            canvas = document.getElementById("canvas");
+            // 创建一个舞台对象
+            stage = new createjs.Stage(canvas);
+
+            //实现了在点击位置生成图片
+            stage.addEventListener("stagemousedown", stageMouseDown);
+            createjs.Ticker.addEventListener('tick',stage)
+        }
+
+        function stageMouseDown(e) {
+            const stageX = e.stageX;
+            const stageY = e.stageY;
+            const data = {
+                images: ["../image/timg.png"],
+                frames: { width: 20, height: 20, regX: 10, regY: 10 }
+            }
+            sprite = new createjs.Sprite(new createjs.SpriteSheet(data));
+            sprite.x=stageX;
+            sprite.y=stageY;
+            stage.addChild(sprite);
+            const childNum=stage.getNumChildren();
+            childNum>1?stage.removeChildAt(0): console.log("第一次点击");
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,14 +1,18 @@
 # stage
 >`const stage=new createjs.Stage("id");`新建舞台。一切都在舞台上开始
->> 每当新建一个元素后都需要`addChild()`向舞台中添加内容，可直接用stage，也可以用**container**<br>
-   stage是透明的 直接```stage.addEventListener("click",function(e){
+>> 每当新建一个元素后都需要`addChild()`向舞台中添加内容，可直接用stage，也可以用**container**。
+stage是透明的 直接```stage.addEventListener("click",function(e){
         console.log("stage be clicked")
     })```<br>
-    一般不会触发**click**。可以用`mousedown`取代`click`
+    一般不会触发**click**。可以用`stagemousedown`取代`click`
 
 # container
->`const stage=new createjs.Container()`新建容器。很多时候我们不能直接对舞台进行操作，会影响别的元素。此刻对容器进行操作再方便不过
-
+>`const container=new createjs.Container()`新建容器。很多时候我们不能直接对舞台进行操作，会影响别的元素。此刻对容器进行操作再方便不过<br>
+`getChildAt(index)`可以获取指定下标的子元素<br>
+`getChildByName (name)`可以根据名字获取指定下标的子元素<br>
+`removeAllChildren()`删除该`container`里面的所有子组件<br>
+`removeChildAt(index)`根据下标删除某个组件<br>
+`removeChild(name1,name2)`根据子组件名删除某个组件<br>
 # bitMap()
 >用于显示图片，一般等图片加载完调用，即在`image.onload()`函数里调用最好。也可以`createjs.Ticker.addEventListener("tick",stage)`函数一直刷新舞台。可以通过`getBounds()`获取宽高，也可也通过**x**,**y**来设置位置
 

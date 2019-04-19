@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>子弹射出</title>
+    <script src="../scripts/easy.js"></script>
+    <script src="../scripts/tween.js"></script>
+</head>
+
+<body>
+    <canvas id="canvas" style="border:1px #000 solid;" width="1000" height="500"></canvas>
+
+    <button id="btn">发射</button>
+</body>
+
+<script>
+
+    const btn = document.getElementById("btn");
+
+    window.onload = function (e) {
+        const stage = new createjs.Stage("canvas");
+        const text=new createjs.Text("0分","30px Arial","#ff0000");
+        
+        stage.addChild(text);
+        // 新建子弹容器
+        const container = new createjs.Container();
+        stage.addChild(container);
+        // 新建NPC容器
+        const npcContainer = new createjs.Container();
+        stage.addChild(npcContainer);
+        // 创建发射器
+        const airPlane = new createjs.Shape();
+        let stageY = 240;
+        airPlane.graphics.beginFill("#ffff00").drawCircle(10, 240, 45);
+        stage.addChild(airPlane)
+        //新建子弹 点击后添加到画布
+        stage.addEventListener("stagemousedown", function () {
+            const shape = new createjs.Shape();
+            shape.graphics.beginFill("#ff0000").drawRect(10, stageY - 8, 50, 16);
+            container.addChild(shape)
+        });
+        // 通过鼠标移动来修改发射器的位置
+        stage.addEventListener("stagemousemove", function (event) {
+            stageY = event.stageY;
+            airPlane.y = stageY - 240;
+            stage.update()
+        });
+
+        let times=1000;
+        let addNpc
+        addNpc = setInterval(function (e) {
+            const npc = new createjs.Shape();
+            let npcY = Math.random() * 300 + 50;
+            // console.log(npcY)
+            npc.graphics.beginFill("#0000ff").drawCircle(900, npcY, 30);
+            npcContainer.addChild(npc)
+            // stage.update()
+        }, times)
+
+        createjs.Ticker.setFPS(15)//子弹速度
+        let over = true;
+        let fraction=0;
+        let points=310;
+        let checkpoint=1
+        createjs.Ticker.addEventListener("tick", function () {
+            if (!over) { return }
+            const npcNum = npcContainer.getNumChildren();//获取npc 数量
+           
+            const childNum = container.getNumChildren();//获取子弹数量
+            //在子弹达到900时清除
+            // for(let i=childNum-1;i>=0;i--){
+            // const shapes=container.getChildAt(i).graphics.command
+            // shapes.x += 10;
+            // if(shapes.x>900){
+            //     container.removeChildAt(i);
+            // }
+            // 求双方是否接触？ 需要用到 三角函数 已知子弹w:50 h:16  npc r45
+            /**
+                所以 只要二者距离小于45就算接触
+                子弹 三个点来判断 矩形的右上角 右中点 右下角
+                假如此刻 y=50，x=50 那么就是(100,50),(100,58),(100,66)三个点
+
+            */
+            // for (let j =npcNum; j<npcNum;j++){
+            //     const npcL=npcContainer.getChildAt(J).graphics.command
+            //     let npcX=npcL.x;let npcY=npcL.Y;
+            //     const dx = Math.abs(npcX - shapes.x);
+            //     const dy = Math.abs(npcY - shapes.y);
+            //     const distance=Math.sqrt(Math.pow(dx,2)+Math.pow(dy,2));
+            // }
+            // }
+            
+                // 设置积分显示位置
+                const textMessage=text.getBounds();
+                text.x=900-textMessage.width>>1
+                text.y=20
+
+            //在npc 飞出欧屏幕后结束
+            for (let i = npcNum - 1; i >= 0; i--) {
+                const npcs = npcContainer.getChildAt(i).graphics.command
+                npcs.x -= 10;
+                const dx = Math.abs(npcs.x - 10);
+                const dy = Math.abs(npcs.y- stageY);
+                const distance=Math.sqrt(Math.pow(dx,2)+Math.pow(dy,2));
+                // console.log(distance,npcs.x )
+                if (npcs.x < 0) {
+                    // 凌波微步
+                    // npcContainer.removeChildAt(i);
+                    // fraction+=10;
+                    // text.text=`${fraction}分---第${checkpoint}关`
+
+                    /*·······································································*/
+
+                    // 斩尽杀绝
+                    clearInterval(addNpc)
+                    over = false;
+                    clearInterval(addNpc)
+                    const boleans=confirm("你死了 GAME OVER!确定继续么？点击取消关闭页面")
+                    if(boleans){
+                        // window.location.reload();
+                        over = true;
+                        npcContainer.removeAllChildren()
+                        addNpc = setInterval(function (e) {
+                            const npc = new createjs.Shape();
+                            let npcY = Math.random() * 300 + 50;
+                            npc.graphics.beginFill("#0000ff").drawCircle(900, npcY, 30);
+                            npcContainer.addChild(npc)
+                        }, times)
+
+                    }else{
+                        window.close()
+                    }
+                }
+                if(fraction>=points){
+                    //  凌波微步
+                    checkpoint+=1;
+                    points+=310;
+                    clearInterval(addNpc)
+                    const boleans=confirm("恭喜过关，确定继续么？点击取消关闭页面")
+                    if(boleans){
+                        // 确认继续后 生成速度加快？ 貌似应该移动速度加快才对
+                        times=times-10;
+                        npcContainer.removeAllChildren()
+                        addNpc = setInterval(function (e) {
+                            const npc = new createjs.Shape();
+                            let npcY = Math.random() * 300 + 100;
+                            npc.graphics.beginFill("#0000ff").drawCircle(900, npcY, 30);
+                            npcContainer.addChild(npc)
+                        }, times)
+                    }else{
+                        window.close()
+                    }
+
+                }
+                if(distance<60){//75
+                    // 凌波微步
+                    // over = false;
+                    // clearInterval(addNpc)
+                    // const boleans=confirm("你死了 GAME OVER!确定继续么？点击取消关闭页面")
+                    // if(boleans){
+                    //     // window.location.reload();
+                    //     over = true;
+                    //     npcContainer.removeAllChildren()
+                    //     addNpc = setInterval(function (e) {
+                    //         const npc = new createjs.Shape();
+                    //         let npcY = Math.random() * 300 + 50;
+                    //         npc.graphics.beginFill("#0000ff").drawCircle(900, npcY, 30);
+                    //         npcContainer.addChild(npc)
+                    //     }, times)
+                    // }else{
+                    //     window.close()
+                    // }
+
+                     // 斩尽杀绝
+                    npcContainer.removeChildAt(i);
+                    fraction+=10;
+                    text.text=`${fraction}分---第${checkpoint}关`
+                }
+
+            }
+
+                stage.update()
+        })
+        stage.update()
+    }
+</script>
+
+</html>

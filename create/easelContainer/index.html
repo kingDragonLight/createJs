@@ -16,17 +16,19 @@
         const canvas = document.getElementById("canvas");
         const canvasH = canvas.height;
         const canvasW = canvas.width;
+        console.log(canvasW>> 1-50,canvasH)
         window.onload = function () {
-            //operationStage()//操作舞台
-            operationContainer()
+            operationStage()//操作舞台
+            // operationContainer()
         }
 
         function operationStage() {
             const stage = new createjs.Stage("canvas");
+            console.log(stage)
             stage.alpha = 0.5;
-
-            const rect = new createjs.Shape();
-            rect.graphics.beginFill("#ff0000").drawRect(canvasW >> 1 - 50, canvasH >> 1 - 50, 50, 50);
+            console.log(canvasW >> 1 - 50)
+            const rect = new createjs.Shape();  
+            rect.graphics.beginFill("#ff0000").drawRect(0, 0, 50, 50);
             rect.addEventListener("click", () => { console.log("be clicked") })
             stage.addEventListener("stagemousemove", function (e) {
                 let x = e.rawX, y = e.rawY;

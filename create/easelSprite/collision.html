@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>精灵图动画案例</title>
+    <script src="../scripts/easy.js"></script>
+    <script src="../scripts/tween.js"></script>
+</head>
+
+<body>
+    <canvas id="canvas" height="800px;" width="800px;" style="background:lightgreen"></canvas>
+    <script>
+        const stage = new createjs.Stage("canvas");
+        const canvas = document.getElementById("canvas");
+        const width = canvas.width;
+        const height = canvas.height;
+        window.onload = function () {
+            csdn()
+        }
+
+        function csdn() {
+            /**
+                 生成随机点       
+          */
+            const particleList = [];
+            const container = new createjs.Container()
+            for (let i = 0; i < 10; i++) {
+                let r = Math.random() * 30 + 20;
+                let x = Math.random() * 800;
+                let y = Math.random() * 800;
+                const shape = new createjs.Shape();
+                particleList.push({ x: x, y: y, r: r })
+                shape.graphics.beginFill("#ff0000").drawCircle(x, y, r);
+                container.addChild(shape)
+            }
+            stage.addChild(container);
+            var move = new createjs.SpriteSheet({
+                "images": ["../image/sprite.png"],
+
+                /**
+                 * frames 里面 height/width:每一帧精灵图显示的高/宽     count:精灵图帧数 
+                 * 可以这么写 x,y,height,width [64, 0, 96, 64]
+                */
+                "frames": {
+                    "height": 80,
+                    "width": 80,
+                    "count": 16
+                },
+                "animations": {
+                    "zheng": [0, 3],
+                    "left": [4, 7,],
+                    "right": [8, 11,],
+                    "stright": [12, 15]
+                }
+            });
+
+            var spriteLeft = new createjs.Sprite(move, "left");
+            var spriteRight = new createjs.Sprite(move, "right");
+            //两个参数，一个是spritesheet的对象
+            console.log(spriteLeft.getBounds())
+            spriteRight.x = 0;
+            spriteRight.y = 200;
+            spriteLeft.x = 700;
+            spriteLeft.y = 200;
+            stage.addChild(spriteRight);
+
+
+
+
+            let speedX = 10;
+            createjs.Ticker.setFPS(8);//每秒多少帧？ 越大速度越快
+
+            createjs.Ticker.addEventListener("tick", function () {
+                if (spriteRight.x >= 800) {
+                    //右行结束 左行开始
+                    stage.removeChild(spriteRight)
+                    stage.addChild(spriteLeft);
+                    spriteLeft.x = 700;
+                    spriteRight.x = 0;
+                    speedX = -Math.abs(speedX)
+                    // console.log("我走出右边了", speedX)
+                }
+
+                if (spriteLeft.x <= 0) {
+                    //左行结束 右行开始
+                    spriteLeft.x = 700;
+                    spriteRight.x = 0;
+                    stage.removeChild(spriteLeft)
+                    stage.addChild(spriteRight);
+                    speedX = Math.abs(speedX)
+                    // console.log("我走出左边了", speedX)
+                }
+
+                if (speedX < 0) {
+                    spriteLeft.x += speedX
+                }
+
+                if (speedX > 0) {
+                    spriteRight.x += speedX
+                }
+                // console.log(spriteRight.x)
+
+                const child = container.getNumChildren();//获取child 数量
+                // const childShape = stage.getChildAt(0).children;
+                for (let i = 0; i < child; i++) {
+                    const command=container.getChildAt(i).graphics.command
+                    console.log(command.x-command.radius,spriteRight.x)
+                    if(command.x-command.radius>=spriteRight.x){
+                        container.removeChildAt(i);
+                    }
+                }
+
+
+
+                stage.update()
+            });
+
+            // const child = container.getNumChildren();//获取child 数量
+            // for (let i = 0; i < child; i++) {
+            //     const command=container.getChildAt(i).graphics.command
+            //     console.log(command)
+
+            // }
+
+
+        }
+
+        // function particle() {
+
+        //     stage.update()
+        // }
+    </script>
+</body>
+
+</html>

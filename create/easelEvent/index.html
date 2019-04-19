@@ -23,28 +23,28 @@
             container.addChild(rect)
             stage.update()
 
-            createjs.Ticker.setFPS(50);//每秒10 帧
-            let speedX=3*Math.random()+7;
-            let speedY=3*Math.random()+7;
+            createjs.Ticker.setFPS(40);//每秒10 帧
+            let speedX = 3 * Math.random() + 15;
+            let speedY = 3 * Math.random() + 10;
             createjs.Ticker.addEventListener('tick', function () {
                 if (rect.x >= 700) {
-                    speedX=3*Math.random()+7;
-                    speedX= -Math.abs(speedX)
-                } 
-                if(rect.x <= 0){
-                    speedX=3*Math.random()+7;
+                    speedX = 3 * Math.random() + 7;
+                    speedX = -Math.abs(speedX)
+                }
+                if (rect.x <= 0) {
+                    speedX = 3 * Math.random() + 7;
                     speedX = Math.abs(speedX)
                 }
                 if (rect.y >= 700) {
-                    speedY=3*Math.random()+7;
-                    speedY= -Math.abs(speedY)
-                } 
-                if(rect.y <= 0){
-                    speedY=3*Math.random()+7;
+                    speedY = 3 * Math.random() + 7;
+                    speedY = -Math.abs(speedY)
+                }
+                if (rect.y <= 0) {
+                    speedY = 3 * Math.random() + 7;
                     speedY = Math.abs(speedY)
                 }
-                rect.x+=speedX;
-                rect.y+=speedY
+                rect.x += speedX;
+                rect.y += speedY
                 stage.update()
             });
 
